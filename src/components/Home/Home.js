@@ -11,7 +11,6 @@ class Home extends Component {
     this.state = {
       words: [],
       userInput: '',
-      showAutocompleteBox: true,
       autocompleteSuggestions: [],
       autocompleteRowHighlighted: -1,
     }
@@ -93,20 +92,16 @@ class Home extends Component {
             <div className='search_bar'>
               <input value={this.state.userInput} onChange={ (e) => this.handleUserInput(e) } onKeyDown={ (e) => this.handleKeyPress(e) } />
               <img src='http://www.androidpolice.com/wp-content/uploads/2015/09/nexus2cee_GoogleLogo2.jpg' alt='voice logo' />
-
-              {
-                this.state.showAutocompleteBox ? 
-                  <div className='autocomplete_suggestions'>
-                    {
-                      this.state.autocompleteSuggestions.map( (item, i) => {
-                        let background = (i === this.state.autocompleteRowHighlighted) ? '#ccc' : '#fff';
-                        return  <div key={i} onClick={() => this.selectAutocomplete(item)} onMouseOver={ () => this.setRowHighlighted(i) } style={{background: background}} className='autocomplete_suggestions_item'>
-                                  <p>{item}</p>
-                                </div>
-                      })
-                    }
-                  </div>
-                : null
+                <div className='autocomplete_suggestions'>
+                  {
+                    this.state.autocompleteSuggestions.map( (item, i) => {
+                      let background = (i === this.state.autocompleteRowHighlighted) ? '#ccc' : '#fff';
+                      return  <div key={i} onClick={() => this.selectAutocomplete(item)} onMouseOver={ () => this.setRowHighlighted(i) } style={{background: background}} className='autocomplete_suggestions_item'>
+                                <p>{item}</p>
+                              </div>
+                    })
+                  }
+                </div>
               }
             </div>
 
