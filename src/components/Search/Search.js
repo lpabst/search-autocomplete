@@ -13,15 +13,22 @@ class Search extends Component {
     }
   }
 
+  componentDidMount(){
+    // console.log('search page mounted')
+  }
+
   handleUserInput(e){
+    let input = e.target.value;
+
     this.setState({
       userInput: input
     })
   }
 
   render() {
+    console.log('rendering')
     return (
-      <div className="Search">
+      <div className="search">
           <div className='search_box'>
 
             <img src='https://cdn.vox-cdn.com/uploads/chorus_asset/file/6466217/fixed-google-logo-font.png' alt='google logo' className='google_logo' />

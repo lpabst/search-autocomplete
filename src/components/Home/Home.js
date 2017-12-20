@@ -44,7 +44,7 @@ class Home extends Component {
   }
 
   handleKeyPress(e){
-    if (e.key == 'ArrowDown' || e.key == 'ArrowUp' || e.key == 'Enter'){
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter'){
       e.preventDefault();
     }else{
       return;
@@ -52,13 +52,13 @@ class Home extends Component {
 
     let rowHighlighted = this.state.autocompleteRowHighlighted;
 
-    if (e.key == 'ArrowDown' && rowHighlighted < this.state.autocompleteSuggestions.length - 1){
+    if (e.key === 'ArrowDown' && rowHighlighted < this.state.autocompleteSuggestions.length - 1){
       rowHighlighted ++;
     }
-    if (e.key == 'ArrowUp' && rowHighlighted > -1){
+    if (e.key === 'ArrowUp' && rowHighlighted > -1){
       rowHighlighted --;
     }
-    if (e.key == 'Enter' && rowHighlighted >= 0){
+    if (e.key === 'Enter' && rowHighlighted >= 0){
       let selection = this.state.autocompleteSuggestions[rowHighlighted];
       return this.selectAutocomplete(selection);
     }
