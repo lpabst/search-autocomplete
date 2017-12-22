@@ -11,7 +11,7 @@ class Search extends Component {
     this.state = {
       words: [],
       userInput: '',
-      autocompleteSuggestions: [],
+      matches: [],
       rowHighlighted: -1,
     }
   }
@@ -24,57 +24,50 @@ class Search extends Component {
 
   handleUserInput(e) {
     let input = e.target.value;
-    let words = this.state.words;
+    let {words} = this.state;
     let matches = [];
 
     if (input){
       for (let i = 0; i < words.length; i++){
         if (words[i].startsWith(input) && matches.length < 10){
-          matches.push(words[i]);
+          matches.push(words[i])
         }
       }
     }
 
     this.setState({
       userInput: input,
-      autocompleteSuggestions: matches
+      matches: matches
     })
   }
 
-  selectAutocomplete(index){
+  selectAutocomplete(i){
     this.setState({
-      userInput: this.state.autocompleteSuggestions[index],
-      autocompleteSuggestions: []
+      userInput: this.state.matches[i],
+      matches: []
     })
   }
 
   handleKeyPress(e){
-    let matches = this.state.autocompleteSuggestions;
-    let row = this.state.rowHighlighted;
-    let userInput = this.state.userInput;
+    let {rowHighlighted} = this.state;
 
-    if (e.key === 'ArrowUp' && row > -1){
-      e.preventDefault();
-      row --;
+    if (e.key === 'ArrowUp' && rowHighlighted > -1){
+      rowHighlighted --;
     }
-    if (e.key === 'ArrowDown' && row < matches.length - 1){
-      e.preventDefault();
-      row ++;
+    if (e.key === 'ArrowDown' && rowHighlighted < this.state.matches.length - 1){
+      rowHighlighted ++;
     }
     if (e.key === 'Enter'){
-      e.preventDefault();
-      userInput = matches[row];
-      matches = [];
+      return this.selectAutocomplete(this.state.rowHighlighted);
     }
 
     this.setState({
-      rowHighlighted: row,
-      userInput: userInput,
-      autocompleteSuggestions: matches
+      rowHighlighted
     })
   }
 
   setRowHighlighted(i){
+    console.log(i);
     this.setState({
       rowHighlighted: i
     })
@@ -88,12 +81,12 @@ class Search extends Component {
           <img src='https://cdn.vox-cdn.com/uploads/chorus_asset/file/6466217/fixed-google-logo-font.png' alt='google logo' className='google_logo' />
 
           <div className='search_bar'>
-            <input value={this.state.userInput} onChange={(e) => this.handleUserInput(e)} onKeyDown={ (e) => this.handleKeyPress(e) } />
+            <input value={this.state.userInput} onChange={(e) => this.handleUserInput(e)} onKeyDown={(e) => this.handleKeyPress(e) } />
             <img src='http://www.androidpolice.com/wp-content/uploads/2015/09/nexus2cee_GoogleLogo2.jpg' alt='voice logo' />
             <div className='autocomplete_suggestions'>
               {
-                this.state.autocompleteSuggestions.map( (item, i) => {
-                  let background = i === this.state.rowHighlighted ? '#ccc' : '#fff';
+                this.state.matches.map( (item, i) => {
+                  let background = this.state.rowHighlighted === i ? '#ccc' : '#fff';
                   return <p key={i} className='autocomplete_suggestions_item' onClick={() => this.selectAutocomplete(i)} style={{background: background}} onMouseOver={() => this.setRowHighlighted(i)} >{item}</p>
                 })
               }
