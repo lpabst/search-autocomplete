@@ -12,7 +12,7 @@ class Search extends Component {
       words: [],
       userInput: '',
       matches: [],
-      rowHighlighted: -1,
+      rowHighlighted: -1
     }
   }
 
@@ -50,24 +50,20 @@ class Search extends Component {
 
   handleKeyPress(e){
     let {rowHighlighted} = this.state;
-
     if (e.key === 'ArrowUp' && rowHighlighted > -1){
-      rowHighlighted --;
+      rowHighlighted--;
     }
     if (e.key === 'ArrowDown' && rowHighlighted < this.state.matches.length - 1){
-      rowHighlighted ++;
+      rowHighlighted++;
     }
     if (e.key === 'Enter'){
-      return this.selectAutocomplete(this.state.rowHighlighted);
+      return this.selectAutocomplete(rowHighlighted);
     }
 
-    this.setState({
-      rowHighlighted
-    })
+    this.setState({rowHighlighted});
   }
 
   setRowHighlighted(i){
-    console.log(i);
     this.setState({
       rowHighlighted: i
     })
@@ -81,13 +77,15 @@ class Search extends Component {
           <img src='https://cdn.vox-cdn.com/uploads/chorus_asset/file/6466217/fixed-google-logo-font.png' alt='google logo' className='google_logo' />
 
           <div className='search_bar'>
-            <input value={this.state.userInput} onChange={(e) => this.handleUserInput(e)} onKeyDown={(e) => this.handleKeyPress(e) } />
+            <input value={this.state.userInput} onChange={(e) => this.handleUserInput(e)} onKeyDown={(e) => this.handleKeyPress(e)} />
             <img src='http://www.androidpolice.com/wp-content/uploads/2015/09/nexus2cee_GoogleLogo2.jpg' alt='voice logo' />
             <div className='autocomplete_suggestions'>
               {
                 this.state.matches.map( (item, i) => {
                   let background = this.state.rowHighlighted === i ? '#ccc' : '#fff';
-                  return <p key={i} className='autocomplete_suggestions_item' onClick={() => this.selectAutocomplete(i)} style={{background: background}} onMouseOver={() => this.setRowHighlighted(i)} >{item}</p>
+                  return <p key={i} className='autocomplete_suggestions_item' 
+                  onClick={() => this.selectAutocomplete(i) } style={{background: background}}
+                  onMouseOver={() => this.setRowHighlighted(i)} >{item}</p>
                 })
               }
             </div>
